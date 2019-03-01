@@ -10,7 +10,7 @@
 
 ### *Results*
 
-![eval-test.png](/Users/yumath/Public/GitHub/Bert-ChineseNER/results.jpeg)
+![eval-test.png](https://github.com/yumath/Bert-ChineseNER/blob/master/results.jpeg)
 
 可以看到在验证集上的F-1值在训练了13个epoch时就已经达到了94.23，并在测试集上达到了92.97。引入bert之后，在这个数据集上的F-1值提升了两个多百分点。
 
