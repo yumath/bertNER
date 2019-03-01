@@ -10,18 +10,21 @@
 
 ### *Results*
 
-![eval-test.png](https://github.com/yumath/Bert-ChineseNER/blob/master/results.jpeg)
+![eval-test.png](https://github.com/yumath/Bert-ChineseNER/blob/master/pictures/results.jpeg)
 
 引入bert之后，可以看到在验证集上的F-1值在训练了13个epoch时就已经达到了94.23，并在测试集上达到了92.97，在这个数据集上的F-1值提升了两个多百分点。
 
 ### *Train*
 
-1. 下载bert模型代码，放入本项目根目录
-2. 下载bert的中文预训练模型，放入本项目根目录
+1. 下载[bert模型代码](https://github.com/google-research/bert)，放入本项目根目录
+2. 下载[bert的中文预训练模型](https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip)，解压放入本项目根目录
 3. 搭建依赖环境python3+tensorflow1.12
 4. 执行`python3 main.py`即可训练模型
+5. main.py中的evaluate_line()函数可以对单句进行测试，暂时未修改其功能。
 
+![folder](https://github.com/yumath/Bert-ChineseNER/blob/master/pictures/folder.png)
 
+整理后的项目目录，应如图所示。
 
 ### *Conclusion*
 
