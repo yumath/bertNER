@@ -10,9 +10,9 @@
 
 ### *Results*
 
-![eval-test.png](https://github.com/yumath/Bert-ChineseNER/blob/master/pictures/results.jpeg)
+![eval-test.png](https://github.com/yumath/Bert-ChineseNER/blob/master/pictures/results.png)
 
-引入bert之后，可以看到在验证集上的F-1值在训练了13个epoch时就已经达到了94.23，并在测试集上达到了92.97，在这个数据集上的F-1值提升了两个多百分点。
+引入bert之后，可以看到在验证集上的F-1值在训练了16个epoch时就已经达到了94.87，并在测试集上达到了93.68，在这个数据集上的F-1值提升了两个多百分点。
 
 ### *Train*
 
