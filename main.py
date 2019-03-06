@@ -5,9 +5,6 @@ import pickle
 import itertools
 from collections import OrderedDict
 
-from bert import modeling
-from bert import optimization
-
 import tensorflow as tf
 import numpy as np
 from model import Model
@@ -16,13 +13,13 @@ from loader import char_mapping, tag_mapping
 from loader import augment_with_pretrained, prepare_dataset
 from utils import get_logger, make_path, clean, create_model, save_model
 from utils import print_config, save_config, load_config, test_ner
-from data_utils import load_word2vec, create_input, input_from_line, BatchManager
+from data_utils import create_input, BatchManager
 
 flags = tf.app.flags
 flags.DEFINE_boolean("clean",       False,      "clean train folder")
 flags.DEFINE_boolean("train",       False,      "Wither train the model")
 # configurations for the model
-flags.DEFINE_integer("batch_size",  256,         "batch size")
+flags.DEFINE_integer("batch_size",  128,         "batch size")
 flags.DEFINE_integer("seg_dim",     20,         "Embedding size for segmentation, 0 if not used")
 flags.DEFINE_integer("char_dim",    100,        "Embedding size for characters")
 flags.DEFINE_integer("lstm_dim",    200,        "Num of hidden units in LSTM")
@@ -171,7 +168,7 @@ def train():
     tf_config.gpu_options.allow_growth = True
     steps_per_epoch = train_manager.len_data
     with tf.Session(config=tf_config) as sess:
-        model = create_model(sess, Model, FLAGS.ckpt_path, config, id_to_char, logger)
+        model = create_model(sess, Model, FLAGS.ckpt_path, config, logger)
 
         logger.info("start training")
         loss = []
@@ -189,25 +186,8 @@ def train():
 
             best = evaluate(sess, model, "dev", dev_manager, id_to_tag, logger)
             if best:
-                save_model(sess, model, FLAGS.ckpt_path, logger)
+                save_model(sess, model, FLAGS.ckpt_path, logger, global_steps=step)
             evaluate(sess, model, "test", test_manager, id_to_tag, logger)
-
-
-def evaluate_line():
-    config = load_config(FLAGS.config_file)
-    logger = get_logger(FLAGS.log_file)
-    # limit GPU memory
-    tf_config = tf.ConfigProto()
-    tf_config.gpu_options.allow_growth = True
-    with open(FLAGS.map_file, "rb") as f:
-        char_to_id, id_to_char, tag_to_id, id_to_tag = pickle.load(f)
-    with tf.Session(config=tf_config) as sess:
-        model = create_model(sess, Model, FLAGS.ckpt_path, config, id_to_char, logger)
-        while True:
-            line = input("请输入测试句子:")
-            result = model.evaluate_line(sess, input_from_line(line, char_to_id), id_to_tag)
-            print(result)
-
 
 def main(_):
     FLAGS.train = True

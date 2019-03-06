@@ -106,9 +106,6 @@ def prepare_dataset(sentences, max_seq_length, tag_to_id, lower=False, train=Tru
         - word char indexes
         - tag indexes
     """
-
-    none_index = tag_to_id["O"]
-
     def f(x):
         return x.lower() if lower else x
     data = []
@@ -122,7 +119,7 @@ def prepare_dataset(sentences, max_seq_length, tag_to_id, lower=False, train=Tru
         if train:
             tags = [w[-1] for w in s]
         else:
-            tags = [none_index for _ in string]
+            tags = ['O' for _ in string]
 
         labels = ' '.join(tags)     #使用空格把标签拼起来
         labels = tokenization.convert_to_unicode(labels)
@@ -136,6 +133,34 @@ def prepare_dataset(sentences, max_seq_length, tag_to_id, lower=False, train=Tru
 
     return data
 
+
+def input_from_line(line, max_seq_length, tag_to_id):
+    """
+    Take sentence data and return an input for
+    the training or the evaluation function.
+    """
+    string = [w[0].strip() for w in line]
+    # chars = [char_to_id[f(w) if f(w) in char_to_id else '<UNK>']
+    #         for w in string]
+    char_line = ' '.join(string)  # 使用空格把汉字拼起来
+    text = tokenization.convert_to_unicode(char_line)
+
+    tags = ['O' for _ in string]
+
+    labels = ' '.join(tags)  # 使用空格把标签拼起来
+    labels = tokenization.convert_to_unicode(labels)
+
+    ids, mask, segment_ids, label_ids = convert_single_example(char_line=text,
+                                                               tag_to_id=tag_to_id,
+                                                               max_seq_length=max_seq_length,
+                                                               tokenizer=tokenizer,
+                                                               label_line=labels)
+    import numpy as np
+    segment_ids = np.reshape(segment_ids,(1, max_seq_length))
+    ids = np.reshape(ids, (1, max_seq_length))
+    mask = np.reshape(mask, (1, max_seq_length))
+    label_ids = np.reshape(label_ids, (1, max_seq_length))
+    return [string, segment_ids, ids, mask, label_ids]
 
 def augment_with_pretrained(dictionary, ext_emb_path, chars):
     """

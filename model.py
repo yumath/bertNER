@@ -6,7 +6,7 @@ from tensorflow.contrib.crf import viterbi_decode
 from tensorflow.contrib.layers.python.layers import initializers
 
 import rnncell as rnn
-from utils import result_to_json
+from utils import bio_to_json
 from bert import modeling
 
 class Model(object):
@@ -277,4 +277,4 @@ class Model(object):
         lengths, scores = self.run_step(sess, False, inputs)
         batch_paths = self.decode(scores, lengths, trans)
         tags = [id_to_tag[idx] for idx in batch_paths[0]]
-        return result_to_json(inputs[0][0], tags)
+        return bio_to_json(inputs[0], tags[1:-1])

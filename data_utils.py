@@ -262,24 +262,6 @@ def replace_html(s):
     s = s.replace("\xa0", " ")
     return(s)
 
-
-def input_from_line(line, char_to_id):
-    """
-    Take sentence data and return an input for
-    the training or the evaluation function.
-    """
-    line = full_to_half(line)
-    line = replace_html(line)
-    inputs = list()
-    inputs.append([line])
-    line.replace(" ", "$")
-    inputs.append([[char_to_id[char] if char in char_to_id else char_to_id["<UNK>"]
-                   for char in line]])
-    #inputs.append([get_seg_features(line)])
-    inputs.append([[]])
-    return inputs
-
-
 class BatchManager(object):
 
     def __init__(self, data,  batch_size):

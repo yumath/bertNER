@@ -166,19 +166,21 @@ def convert_to_text(line):
     return "".join(to_print)
 
 
-def save_model(sess, model, path, logger):
+def save_model(sess, model, path, logger, global_steps):
     checkpoint_path = os.path.join(path, "ner.ckpt")
-    model.saver.save(sess, checkpoint_path)
+    model.saver.save(sess, checkpoint_path, global_step = global_steps)
     logger.info("model saved")
 
 
-def create_model(session, Model_class, path, config, id_to_char, logger):
+def create_model(session, Model_class, path, config, logger):
     # create model, reuse parameters if exists
     model = Model_class(config)
 
     ckpt = tf.train.get_checkpoint_state(path)
     if ckpt and tf.train.checkpoint_exists(ckpt.model_checkpoint_path):
         logger.info("Reading model parameters from %s" % ckpt.model_checkpoint_path)
+        #saver = tf.train.import_meta_graph('ckpt/ner.ckpt.meta')
+        #saver.restore(session, tf.train.latest_checkpoint("ckpt/"))
         model.saver.restore(session, ckpt.model_checkpoint_path)
     else:
         logger.info("Created model with fresh parameters.")
@@ -212,6 +214,39 @@ def result_to_json(string, tags):
             entity_name = ""
             entity_start = idx
         idx += 1
+    return item
+
+def bio_to_json(string, tags):
+    item = {"string": string, "entities": []}
+    entity_name = ""
+    entity_start = 0
+    iCount = 0
+    entity_tag = ""
+    #assert len(string)==len(tags), "string length is: {}, tags length is: {}".format(len(string), len(tags))
+
+    for c_idx in range(len(tags)):
+        c, tag = string[c_idx], tags[c_idx]
+        if c_idx < len(tags)-1:
+            tag_next = tags[c_idx+1]
+        else:
+            tag_next = ''
+
+        if tag[0] == 'B':
+            entity_tag = tag[2:]
+            entity_name = c
+            entity_start = iCount
+            if tag_next[2:] != entity_tag:
+                item["entities"].append({"word": c, "start": iCount, "end": iCount + 1, "type": tag[2:]})
+        elif tag[0] == "I":
+            if tag[2:] != tags[c_idx-1][2:] or tags[c_idx-1][2:] == 'O':
+                tags[c_idx] = 'O'
+                pass
+            else:
+                entity_name = entity_name + c
+                if tag_next[2:] != entity_tag:
+                    item["entities"].append({"word": entity_name, "start": entity_start, "end": iCount + 1, "type": entity_tag})
+                    entity_name = ''
+        iCount += 1
     return item
 
 def convert_single_example(char_line, tag_to_id, max_seq_length, tokenizer, label_line):
