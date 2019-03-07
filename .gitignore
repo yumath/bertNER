@@ -40,3 +40,6 @@ __pycache__/utils.cpython-36.pyc
 bert/__pycache__/__init__.cpython-36.pyc
 bert/__pycache__/modeling.cpython-36.pyc
 bert/__pycache__/tokenization.cpython-36.pyc
+config_file
+maps.pkl
+train.log

@@ -20,7 +20,7 @@
 2. 下载[bert的中文预训练模型](https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip)，解压放入本项目根目录
 3. 搭建依赖环境python3+tensorflow1.12
 4. 执行`python3 main.py`即可训练模型
-5. main.py中的evaluate_line()函数可以对单句进行测试，暂时未修改其功能。
+5. 执行`python3 evaluate.py`可以对单句进行测试
 
 ![folder](https://github.com/yumath/Bert-ChineseNER/blob/master/pictures/folder.png)
 
