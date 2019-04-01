@@ -26,21 +26,12 @@ class Model(object):
         self.initializer = initializers.xavier_initializer()
 
         # add placeholders for the model
-        self.input_ids = tf.placeholder(dtype=tf.int32,
-                                        shape=[None, None],
-                                        name="input_ids")
-        self.input_mask = tf.placeholder(dtype=tf.int32,
-                                         shape=[None, None],
-                                         name="input_mask")
-        self.segment_ids = tf.placeholder(dtype=tf.int32,
-                                          shape=[None, None],
-                                          name="segment_ids")
-        self.targets = tf.placeholder(dtype=tf.int32,
-                                      shape=[None, None],
-                                      name="Targets")
+        self.input_ids = tf.placeholder(dtype=tf.int32, shape=[None, None], name="input_ids")
+        self.input_mask = tf.placeholder(dtype=tf.int32, shape=[None, None], name="input_mask")
+        self.segment_ids = tf.placeholder(dtype=tf.int32, shape=[None, None], name="segment_ids")
+        self.targets = tf.placeholder(dtype=tf.int32, shape=[None, None], name="Targets")
         # dropout keep prob
-        self.dropout = tf.placeholder(dtype=tf.float32,
-                                      name="Dropout")
+        self.dropout = tf.placeholder(dtype=tf.float32, name="Dropout")
 
         used = tf.sign(tf.abs(self.input_ids))
         length = tf.reduce_sum(used, reduction_indices=1)
