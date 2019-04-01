@@ -185,11 +185,6 @@ def create_model(session, Model_class, path, config, logger):
     else:
         logger.info("Created model with fresh parameters.")
         session.run(tf.global_variables_initializer())
-        if config["pre_emb"]:
-            #emb_weights = session.run(model.char_lookup.read_value())
-            #emb_weights = load_vec(config["emb_file"],id_to_char, config["char_dim"], emb_weights)
-            #session.run(model.char_lookup.assign(emb_weights))
-            logger.info("Do Not Load pre-trained embedding.")
     return model
 
 
