@@ -6,17 +6,6 @@ from model import Model
 from loader import input_from_line
 from train import FLAGS, load_config
 
-def load_model():
-    config = load_config(FLAGS.config_file)
-    logger = get_logger(FLAGS.log_file)
-    # limit GPU memory
-    tf_config = tf.ConfigProto()
-    tf_config.gpu_options.allow_growth = True
-    with tf.Session(config=tf_config) as sess:
-        model = create_model(sess, Model, FLAGS.ckpt_path, config, logger)
-        print("加载成功")
-    return model
-
 def main(_):
     config = load_config(FLAGS.config_file)
     logger = get_logger(FLAGS.log_file)
@@ -35,4 +24,3 @@ def main(_):
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     tf.app.run(main)
-    #load_model()
