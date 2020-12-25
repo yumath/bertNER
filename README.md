@@ -32,6 +32,7 @@
 
 ### *Fine-tune*
 目前的代码是Feature Based的迁移，可以改为Fine-tune的迁移，效果还能再提升1个点左右。fine-tune可以自行修改代码，将model中的bert参数加入一起训练，并将lr修改到1e-5的量级。
+并且，是否添加BiLSTM都对结果影响不大，可以直接使用BERT输出的结果进行解码，建议还是加一层CRF，强化标记间的转移规则。
 
 ### *Reference*
 
