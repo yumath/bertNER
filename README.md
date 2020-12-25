@@ -30,6 +30,9 @@
 
 可以看到，使用bert以后，模型的精度提升了两个多百分点。并且，在后续测试过程中发现，使用bert训练的NER模型拥有更强的泛化性能，比如训练集中未见过的公司名称等，都可以很好的识别。而仅仅使用[ChineseNER](https://github.com/zjy-ucas/ChineseNER)中提供的训练集，基于BiLSTM+CRF的框架训练得到的模型，基本上无法解决OOV问题。
 
+### *Fine-tune*
+目前的代码是Feature Based的迁移，可以改为Fine-tune的迁移，效果还能再提升1个点左右。fine-tune可以自行修改代码，将model中的bert参数加入一起训练，并将lr修改到1e-5的量级。
+
 ### *Reference*
 
 (1)  https://github.com/zjy-ucas/ChineseNER
