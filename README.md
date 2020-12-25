@@ -22,9 +22,24 @@
 4. 执行`python3 train.py`即可训练模型
 5. 执行`python3 predict.py`可以对单句进行测试
 
-<img src="pictures/folder.png" height="200px">
+整理后的项目目录，应如下所示：
 
-整理后的项目目录，应如图所示。
+>  .
+> ├── BERT fine-tune实践.md
+> ├── README.md
+> ├── bert
+> ├── chinese_L-12_H-768_A-12
+> ├── conlleval
+> ├── conlleval.py
+> ├── data
+> ├── data_utils.py
+> ├── loader.py
+> ├── model.py
+> ├── pictures
+> ├── predict.py
+> ├── rnncell.py
+> ├── train.py
+> └── utils.py
 
 ### *Conclusion*
 
@@ -32,6 +47,7 @@
 
 ### *Fine-tune*
 目前的代码是Feature Based的迁移，可以改为Fine-tune的迁移，效果还能再提升1个点左右。fine-tune可以自行修改代码，将model中的bert参数加入一起训练，并将lr修改到1e-5的量级。
+并且，是否添加BiLSTM都对结果影响不大，可以直接使用BERT输出的结果进行解码，建议还是加一层CRF，强化标记间的转移规则。
 
 ### *Reference*
 
