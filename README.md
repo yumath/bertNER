@@ -24,22 +24,23 @@
 
 整理后的项目目录，应如下所示：
 
->  .
-> ├── BERT fine-tune实践.md
-> ├── README.md
-> ├── bert
-> ├── chinese_L-12_H-768_A-12
-> ├── conlleval
-> ├── conlleval.py
-> ├── data
-> ├── data_utils.py
-> ├── loader.py
-> ├── model.py
-> ├── pictures
-> ├── predict.py
-> ├── rnncell.py
-> ├── train.py
-> └── utils.py
+```  .
+ ├── BERT fine-tune实践.md
+ ├── README.md
+ ├── bert
+ ├── chinese_L-12_H-768_A-12
+ ├── conlleval
+ ├── conlleval.py
+ ├── data
+ ├── data_utils.py
+ ├── loader.py
+ ├── model.py
+ ├── pictures> 
+ ├── predict.py
+ ├── rnncell.py
+ ├── train.py
+ └── utils.py
+```
 
 ### *Conclusion*
 
